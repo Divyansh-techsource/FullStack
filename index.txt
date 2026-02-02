@@ -1,0 +1,3 @@
+npx create-react-app MyApp
+npm create vite@latest
+react works on component prog.
