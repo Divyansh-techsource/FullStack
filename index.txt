@@ -1,3 +1,98 @@
 npx create-react-app MyApp
 npm create vite@latest
 react works on component prog.
+npm run dev
+ctrl+c to stop live server
+npm start for create-react-app
+
+
+
+
+
+PS D:\FullStack> git init
+Initialized empty Git repository in D:/FullStack/.git/
+PS D:\FullStack> git add .
+warning: in the working copy of 'my-project/.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'my-project/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'my-project/eslint.config.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'my-project/index.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'my-project/package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'my-project/package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'my-project/src/App.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'my-project/src/App.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'my-project/src/index.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'my-project/src/main.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'my-project/vite.config.js', LF will be replaced by CRLF the next time Git touches it
+warning: adding embedded git repository: myapp
+hint: You've added another git repository inside your current repository.
+hint: Clones of the outer repository will not contain the contents of
+hint: the embedded repository and will not know how to obtain it.
+hint: If you meant to add a submodule, use:
+hint:
+hint:   git submodule add <url> myapp
+hint:
+hint: If you added this path by mistake, you can remove it from the
+hint: index with:
+hint:
+hint:   git rm --cached myapp
+hint:
+hint: See "git help submodule" for more information.
+hint: Disable this message with "git config advice.addEmbeddedRepo false"
+PS D:\FullStack> git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   demo.js
+        new file:   ind.js
+        new file:   index.txt
+        new file:   my-project/.gitignore
+        new file:   my-project/README.md
+        new file:   my-project/eslint.config.js
+        new file:   my-project/index.html
+        new file:   my-project/package-lock.json
+        new file:   my-project/package.json
+        new file:   my-project/public/vite.svg
+        new file:   my-project/src/App.css
+        new file:   my-project/src/App.jsx
+        new file:   my-project/src/assets/react.svg
+        new file:   my-project/src/index.css
+        new file:   my-project/src/main.jsx
+        new file:   my-project/vite.config.js
+        new file:   myapp
+
+PS D:\FullStack> git commit -m "Initial Commit"
+[master (root-commit) fd8ed64] Initial Commit
+ 17 files changed, 3342 insertions(+)
+ create mode 100644 demo.js
+ create mode 100644 ind.js
+ create mode 100644 index.txt
+ create mode 100644 my-project/.gitignore
+ create mode 100644 my-project/README.md
+ create mode 100644 my-project/eslint.config.js
+ create mode 100644 my-project/index.html
+ create mode 100644 my-project/package-lock.json
+ create mode 100644 my-project/package.json
+ create mode 100644 my-project/public/vite.svg
+ create mode 100644 my-project/src/App.css
+ create mode 100644 my-project/src/App.jsx
+ create mode 100644 my-project/src/assets/react.svg
+ create mode 100644 my-project/src/index.css
+ create mode 100644 my-project/src/main.jsx
+ create mode 100644 my-project/vite.config.js
+ create mode 160000 myapp
+PS D:\FullStack> git branch -M main
+PS D:\FullStack> git remote add origin https://github.com/Divyansh-techsource/FullStack.git
+PS D:\FullStack> git push -u origin main
+Enumerating objects: 22, done.
+Counting objects: 100% (22/22), done.
+Delta compression using up to 16 threads
+Compressing objects: 100% (19/19), done.
+Writing objects: 100% (22/22), 30.36 KiB | 1.01 MiB/s, done.
+Total 22 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/Divyansh-techsource/FullStack.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+PS D:\FullStack>
