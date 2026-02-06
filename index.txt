@@ -4,7 +4,7 @@ react works on component prog.
 npm run dev
 ctrl+c to stop live server
 npm start for create-react-app
-
+create a react app of my choice with css and props
 
 
 
