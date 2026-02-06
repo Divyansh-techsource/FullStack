@@ -1,5 +1,7 @@
-export default function Footer(){
+export default function Footer(props){
     return(
-        <h1>Hello</h1>
+        <>
+        <p>{props.year[2]} {props.company.name}</p>
+        </>
     )
 }
