@@ -1,7 +1,12 @@
 import './App.css'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
+<<<<<<< HEAD
 // import Registration from './components/registration.jsx'
+=======
+import main from './components/main.jsx'
+import Registration from './components/registration.jsx'
+>>>>>>> master
 function App() {
   const y=[2024,2025,2026];
   const c={
@@ -14,8 +19,19 @@ function App() {
       <Header title="My first React App"/>
     <h1>Hello World</h1>
     <h2>Welcome to ReactJS</h2>
+<<<<<<< HEAD
     <Footer year={y} company={c}/>
     {/* <Registration /> */}
+=======
+    <card>
+      <h4>This is Children Demo</h4>
+      <p>This Demo talks about passing children props</p>
+      <p>Thanks for reading</p>
+    </card>
+    <Footer year={y} company={c}/>
+    <main />
+    <Registration />
+>>>>>>> master
     </div>
   )
 }
