@@ -18,6 +18,7 @@ function App() {
     <div>
       <Header title="My first React App"/>
     <h1>Hello World</h1>
+    <h2>I am learning React</h2>
     <h2>Welcome to ReactJS</h2>
 <<<<<<< HEAD
     <Footer year={y} company={c}/>
