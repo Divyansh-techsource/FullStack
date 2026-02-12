@@ -1,4 +1,4 @@
-export default function eventToDo(){
+export default function EventToDo(){
     // function handleClick({name}){
     //     alert(`You pressed button ${name}`);
     // }
@@ -12,9 +12,8 @@ export default function eventToDo(){
             return;
         }
         const li=document.createElement("li");
-    }
-    function handleClickList(){
-        
+        li.innerHTML=<span>${inputValue}</span>
+
     }
     return(
         <>
@@ -25,7 +24,7 @@ export default function eventToDo(){
             <input type="text" name="task" placeholder="Add your task here"/>
             <input type="submit">Add Task</input>
         </form>
-        <ul id="task list" onClick={handleClickList}>
+        <ul id="taskList" onClick={handleClickList}>
             <li></li>
         </ul>
         </>
