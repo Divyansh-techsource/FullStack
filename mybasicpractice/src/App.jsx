@@ -1,10 +1,12 @@
 import "./App.css"
-import EventToDo from "./EventToDo.jsx" 
+// import EventToDo from "./EventToDo.jsx" 
+import Counter from "./Counter.jsx"
 function App() {
-  let name="Divyansh Kaushik";
+  // let name="Divyansh Kaushik";
   return (
     <>
-    <EventToDo/>
+    {/* <EventToDo/> */}
+    <Counter/>
     </>
   )
 }
