@@ -152,11 +152,32 @@
 // }
 // // greet("User");
 
-const factorial=function(n)
-{
-    if(n==0||n==1)
-        return 1;
-    else
-        return n*factorial(n-1);
-}
-console.log(factorial(5));
+// const factorial=function(n)
+// {
+//     if(n==0||n==1)
+//         return 1;
+//     else
+//         return n*factorial(n-1);
+// }
+// console.log(factorial(5));
+
+// function greet(){
+//     console.log("Welcome");
+// }
+// function execute(fn){
+//     fn();
+// }
+// execute(greet);
+
+const number=[1,2,3];
+// const newnumber=number.map(function(n){
+//     return n*2;
+// });
+// const newnumber=number.map(n=>n*2);
+// console.log(newnumber);
+
+const newnumber=number.filter((n)=>n%2!=0);
+console.log(newnumber);
+
+const n=[...number,5];
+console.log(n);
