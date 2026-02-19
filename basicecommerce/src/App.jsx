@@ -34,8 +34,8 @@ function App() {
   return (
     <>
     <Header cart={cart.length}>
-    <ProductList/>
-    <Cart/>
+    {/* <ProductList/>
+    <Cart/> */}
     </>
   );
 }
