@@ -3,6 +3,7 @@ import './App.css'
 import Header from "./Components/Header";
 import ProductList from "./Components/ProductList";
 import Cart from "./Components/Cart";
+import Search from "./Components/Search";
 function App() {
   const [cart,setCart]=useState([]);
   const [totalAmt,setAmt]=useState(0);
@@ -38,10 +39,11 @@ function App() {
   return (
     <>
     <Header cart={cart.length} totalAmount={totalAmount}/>
+    <Search/>
     <Cart cart={cart} totalAmount={totalAmount}/>
     <ProductList products={product} addToCart={addToCart}/>
     </>
   );
 }
 
-export default App
+export default App;
