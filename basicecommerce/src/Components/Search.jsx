@@ -9,7 +9,7 @@ export default function Search(){
             <input type="text"
             placeholder="Enter key to search"
             value={find}
-            onChange={(e)=>setFind(e.target.value)} />
+            onChange={(e)=>setFind(e.target.value)}/>
             <ul>
                 {student.map((item,index)=>(<li key={index}>{item}</li>))}
             </ul>
