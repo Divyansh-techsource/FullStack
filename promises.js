@@ -1,6 +1,6 @@
-let p=new Promise((resolve,reject)=>{
-    let s=true;
-    if(s){
+/*let promise=new Promise((resolve,reject)=>{
+    let success=true;
+    if(success){
         resolve("Data Connected");
     }
     else{
@@ -12,3 +12,7 @@ fetch("https://jsonplaceholder.typicode.com/users")
 .then(response=>response.json())
 .then(data=>console.log(data))
 .catch(error=>console.log(error))
+axios.get("https://jsonplaceholder.typicode.com/users")
+.then(res=>console.log(res.data))
+.catch(err=>console.log(err));
+*/
