@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+/*import { useState, useEffect } from "react";
 import NewsCard from "./NewsCard";
 
 export default function News() {
@@ -16,7 +16,7 @@ export default function News() {
     setCurrentPage(1);
 
     fetch(
-      "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=a8b3bfea9f244f57984bd4ad5e1edb02"
+      "https://newsapi.org/v2/top-headlines?country=us&category=business"
     )
       .then((res) => res.json())
       .then((data) => {
@@ -93,4 +93,4 @@ export default function News() {
       </div>
     </div>
   );
-}
+}*/
