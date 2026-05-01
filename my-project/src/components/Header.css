@@ -1,0 +1,6 @@
+.nav{
+    background-color:coral;
+    padding: 12px;
+    display: flex;
+    gap: 20px;
+}
