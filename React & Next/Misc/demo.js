@@ -35,23 +35,23 @@
 // console.log(5=='5');//true
 // console.log(5==='5');//false strict checking
 
-// for(let i=1;i<=10;i++){
-//     if(i%2==0){
-//         console.log("Even");
-//     }
-//     else{
-//         console.log("Odd");
-//     }
-//     if(i=='5'){
-//         console.log(5);
-//     }
-//     if(i==='5'){
-//         console.log("f");
-//     }
-//     else{
-//         console.log("t");
-//     }
-// }
+for(let i=1;i<=10;i++){
+    if(i%2==0){
+        console.log("Even");
+    }
+    else{
+        console.log("Odd");
+    }
+    if(i=='5'){
+        console.log(5);
+    }
+    if(i==='5'){
+        console.log("f");
+    }
+    else{
+        console.log("t");
+    }
+}
 
 // let num=10;//number
 // let str='Hello';//string

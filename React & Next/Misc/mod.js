@@ -1,0 +1,10 @@
+// import os from "os";
+// const os=require("os");
+const math=require("./model.js");
+// console.log(os.type());
+// console.log(os.version());
+// console.log(os.platform());
+// console.log(os.uptime());
+// console.log(os.arch());
+// console.log(os.release());
+console.log(math.diff(10,20));
