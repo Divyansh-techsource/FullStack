@@ -6,6 +6,13 @@ router.use(express.json());
 //     res.send("Home");
 // });
 
+app.use((req,res,next)=>{
+    console.log("Request Coming from: ",req.originalUrl);
+    console.log("Request Type: ",req.method);
+    next();
+});
+app.use("/students",StudentRoutes);
+
 router.get("/About",(req,res)=>{
     res.send("About");
 });
