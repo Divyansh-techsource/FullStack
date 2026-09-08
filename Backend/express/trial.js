@@ -1,7 +1,7 @@
 import express from "express";
-const app=express();
+const app = express();
 app.use(express.json());
-const PORT=3000;
+const PORT = 3000;
 
 //Application Level Middleware
 // app.use((req,res,next)=>{
@@ -39,28 +39,30 @@ const PORT=3000;
 //     next();
 // });
 
-app.get("/student/:id",(req,res,next)=>{
-    if(req.params.id=="0"){
-        next("route");
+app.get(
+  "/student/:id",
+  (req, res, next) => {
+    if (req.params.id == "0") {
+      next("route");
+    } else {
+      next();
     }
-    else{
-        next();
-    }
-},
-(req,res)=>{
+  },
+  (req, res) => {
     res.end("Regular Route");
-});
+  },
+);
 
-app.get("/student/:id",(req,res)=>{
-    res.end("Special Route");
+app.get("/student/:id", (req, res) => {
+  res.end("Special Route");
 });
 
 //Error
-app.use((err,req,res,next)=>{
-    console.error(err.stack);
-    res.status(500).send("Something went wrong!");
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
 });
 
-app.listen(PORT,()=>{
-    console.log("Server Started");
+app.listen(PORT, () => {
+  console.log("Server Started");
 });
