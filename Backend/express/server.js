@@ -1,7 +1,20 @@
+import "dotenv/config";
 import express from "express";
+import mongoose from "mongoose";
 import StudentRoutes from "./router/StudentRoutes.js";
+// import TeacherRoutes from "./router/TeacherRoutes.js";
 const app = express();
 app.use(express.json());
+const PORT = process.env.PORT || 3030;
+
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(() => {
+    console.log("Database Connected");
+  })
+  .catch((error) => {
+    console.log("Database cannot be connected:", error);
+  });
 
 app.use((req, res, next) => {
   console.log("Request Coming from: ", req.originalUrl);
@@ -10,7 +23,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/students", StudentRoutes);
+// app.use("/teachers", TeacherRoutes);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("Server Started");
 });

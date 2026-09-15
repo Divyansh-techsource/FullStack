@@ -1,132 +1,174 @@
 import express from "express";
 import checkrole from "../middleware/roleMiddleware.js";
+import Student from "../models/studentModel.js";
+
 const router = express.Router();
+
 router.use(express.json());
 
-// router.use((req,res,next)=>{
-//     console.log("Request Coming from: ",req.originalUrl);
-//     console.log("Request Type: ",req.method);
-//     next();
-// });
-// router.use("/students",StudentRoutes);
-
-router.get("/About", (req, res) => {
-  res.send("About");
+router.get("/Contact", async (req, res) => {
+  try {
+    res.status(200).send("Contact");
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching contact",
+      error: error.message,
+    });
+  }
 });
 
-router.get("/Contact", (req, res) => {
-  res.send("Contact");
-});
-
-let students = [
-  {
-    id: 1,
-    name: "John",
-    age: 20,
-    course: "CS",
+router.get("/search", checkrole("student", "teacher", "admin"),async (req, res) => {
+    try {
+      const { course } = req.query;
+      if (!course) {
+        return res.status(400).json({
+          message: "Course is required",
+        });
+      }
+      const students = await Student.find({
+        course: { $regex: `^${course}$`, $options: "i" },
+      });
+      res.status(200).json(students);
+    } catch (error) {
+      res.status(500).json({
+        message: "Error searching students",
+        error: error.message,
+      });
+    }
   },
-  {
-    id: 2,
-    name: "Doe",
-    age: 25,
-    course: "ECE",
+);
+
+router.get("/", checkrole("student", "teacher", "admin"), async (req, res) => {
+  try {
+    const students = await Student.find();
+
+    res.status(200).json(students);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error fetching students",
+      error: error.message,
+    });
+  }
+});
+
+router.get("/:id",checkrole("student", "teacher", "admin"),async (req, res) => {
+    try {
+      const id = req.params.id;
+
+      const stud = await Student.findById(id);
+
+      if (!stud) {
+        return res.status(404).json({
+          message: "Student not found",
+        });
+      }
+
+      res.status(200).json(stud);
+    } catch (error) {
+      res.status(500).json({
+        message: "Error fetching student",
+        error: error.message,
+      });
+    }
   },
-];
+);
 
-router.get("/search", checkrole("student", "teacher", "admin"), (req, res) => {
-  const course = req.query.course;
-  if (!course) {
-    return res.status(404).json({
-      message: "No course found",
+router.post("/", checkrole("teacher", "admin"), async (req, res) => {
+  try {
+    const newStudent = await Student.create({
+      name: req.body.name,
+      age: req.body.age,
+      course: req.body.course,
+    });
+
+    res.status(201).json({
+      message: "Student added successfully",
+      student: newStudent,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error adding student",
+      error: error.message,
     });
   }
-  const filteredStudents = students.filter(
-    (student) => student.course.toLowerCase() === course.toLowerCase(),
-  );
-  res.status(200).json(filteredStudents);
 });
 
-router.get("/", checkrole("student", "teacher", "admin"), (req, res) => {
-  res.json(students);
-});
+router.delete("/:id", checkrole("admin"), async (req, res) => {
+  try {
+    const id = req.params.id;
 
-router.get("/:id", checkrole("student", "teacher", "admin"), (req, res) => {
-  const id = parseInt(req.params.id);
-  const stud = students.find((student) => student.id === id);
-  if (!stud) {
-    return res.status(404).json({
-      message: "Student not found",
+    const deletedStudent = await Student.findByIdAndDelete(id);
+
+    if (!deletedStudent) {
+      return res.status(404).json({
+        message: "Student not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Student deleted successfully",
+      student: deletedStudent,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting student",
+      error: error.message,
     });
   }
-  res.json(stud);
 });
 
-router.post("/", checkrole("teacher", "admin"), (req, res) => {
-  const newStudent = {
-    id: students.length + 1,
-    name: req.body.name,
-    age: req.body.age,
-    course: req.body.course,
-  };
-  students.push(newStudent);
-  res.status(201).json({
-    message: "Student added successfully",
-    student: newStudent,
-  });
-});
+router.put("/:id", checkrole("teacher", "admin"), async (req, res) => {
+  try {
+    const id = req.params.id;
 
-router.delete("/:id", checkrole("admin"), (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = students.findIndex((student) => student.id === id);
-  if (index === -1) {
-    return res.status(404).json({
-      message: "Student not found",
+    const updatedStudent = await Student.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedStudent) {
+      return res.status(404).json({
+        message: "Student not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Student updated successfully",
+      student: updatedStudent,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error updating student",
+      error: error.message,
     });
   }
-  students.splice(index, 1);
-  res.status(200).json({
-    message: "Student deleted successfully",
-  });
 });
 
-router.put("/:id", checkrole("teacher", "admin"), (req, res) => {
-  const id = parseInt(req.params.id);
-  const stud = students.find((student) => student.id === id);
-  if (!stud) {
-    return res.status(404).json({
-      message: "Student not found",
-    });
-  }
-  stud.name = req.body.name;
-  stud.course = req.body.course;
-  stud.age = req.body.age;
-  return res.status(200).json({
-    message: "Student updated successfully",
-    student: stud,
-  });
-});
+router.patch("/:id", checkrole("teacher", "admin"), async (req, res) => {
+  try {
+    const id = req.params.id;
 
-router.patch("/:id", checkrole("teacher", "admin"), (req, res) => {
-  const id = parseInt(req.params.id);
-  const stud = students.find((student) => student.id === id);
-  if (!stud) {
-    return res.status(404).json({
-      message: "Student Not found",
+    const updatedStudent = await Student.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedStudent) {
+      return res.status(404).json({
+        message: "Student not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Student partially updated successfully",
+      student: updatedStudent,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error partially updating student",
+      error: error.message,
     });
   }
-  if (req.body.name !== undefined) {
-    stud.name = req.body.name;
-  }
-  if (req.body.age !== undefined) {
-    stud.age = req.body.age;
-  }
-  if (req.body.course !== undefined) {
-    stud.course = req.body.course;
-  }
-  res.status(200).json({
-    message: "Student updated",
-    student: stud,
-  });
 });
 
 export default router;

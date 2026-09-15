@@ -2,26 +2,26 @@ import express from "express";
 const app = express();
 app.use(express.json());
 
-const teachers = [
-  {
-    id: 101,
-    name: "A",
-    age: 35,
-    dept: "CS",
-  },
-  {
-    id: 102,
-    name: "B",
-    age: 40,
-    dept: "CSE",
-  },
-  {
-    id: 103,
-    name: "C",
-    age: 27,
-    dept: "ECE",
-  },
-];
+// const teachers = [
+//   {
+//     id: 101,
+//     name: "A",
+//     age: 35,
+//     dept: "CS",
+//   },
+//   {
+//     id: 102,
+//     name: "B",
+//     age: 40,
+//     dept: "CSE",
+//   },
+//   {
+//     id: 103,
+//     name: "C",
+//     age: 27,
+//     dept: "ECE",
+//   },
+// ];
 
 app.get("/search", (req, res) => {
   const dept = req.query.dept;
@@ -123,3 +123,4 @@ app.patch("/teachers/:id", (req, res) => {
 app.listen(3000, () => {
   console.log("Server Started");
 });
+export default app;
