@@ -1,0 +1,12 @@
+{
+  "name": "student-attendance-service",
+  "version": "1.0.0",
+  "description": "NodeJS API for recording and reporting student attendance",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

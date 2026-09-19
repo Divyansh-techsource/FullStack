@@ -1,0 +1,12 @@
+{
+  "name": "link-vault-service",
+  "version": "1.0.0",
+  "description": "NodeJS API for storing and shortening web addresses",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

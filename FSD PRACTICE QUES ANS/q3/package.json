@@ -1,0 +1,12 @@
+{
+  "name": "workshop-enrollment-service",
+  "version": "1.0.0",
+  "description": "NodeJS API for managing registrations to workshops",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
