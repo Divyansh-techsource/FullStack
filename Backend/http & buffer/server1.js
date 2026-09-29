@@ -1,8 +1,8 @@
 import http from "http";
-/*import fs from "fs";
+import fs from "fs";
 const Filepath = "./log.txt";
 
-const server = http.createServer((req, res) => {
+const server1 = http.createServer((req, res) => {
     switch (req.url) {
 
         case "/":{
@@ -36,7 +36,7 @@ const server = http.createServer((req, res) => {
             res.end("404 Not Found");
         }
     }
-});*/
+});
 
 const server = http.createServer((req, res) => {
   if (req.url === "/users" && req.method === "POST") {
@@ -67,6 +67,6 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(PORT, () => {
+server.listen(3000, () => {
   console.log("Server started");
 });
