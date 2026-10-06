@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv/config";
-const getToken = (user) => {
+import "dotenv/config";
+const getToken = (user, role) => {
   return jwt.sign(
     {
       email: user.email,
       id: user._id,
+      role: role,
     },
     process.env.SECRET_KEY,
     {

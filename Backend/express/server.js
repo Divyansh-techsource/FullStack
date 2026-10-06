@@ -3,8 +3,10 @@ import express from "express";
 import mongoose from "mongoose";
 import StudentRoutes from "./router/StudentRoutes.js";
 // import TeacherRoutes from "./router/TeacherRoutes.js";
+import cookieParser from "cookie-parser";
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 const PORT = process.env.PORT || 3030;
 
 mongoose

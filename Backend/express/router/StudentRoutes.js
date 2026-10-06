@@ -1,9 +1,11 @@
 import express from "express";
 import checkrole from "../middleware/roleMiddleware.js";
 import Student from "../models/studentModel.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+router.use(authMiddleware());
 router.use(express.json());
 
 router.get("/Contact", async (req, res) => {
