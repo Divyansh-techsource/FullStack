@@ -1,12 +1,18 @@
 import jwt from "./util/jwt.js";
 import User from "./models/studentModel.js";
 import bcrypt from "bcrypt";
+import { generateTokenAccess, generateTokenRefresh } from "../util/jwt.js";
 
 const register = async (req, res) => {
   try {
-    const { username, email, password,role } = req.body;
+    const { username, email, password, role } = req.body;
 
-    if (!username?.trim() || !email?.trim() || !password?.trim() || !role?.trim()) {
+    if (
+      !username?.trim() ||
+      !email?.trim() ||
+      !password?.trim() ||
+      !role?.trim()
+    ) {
       return res.status(400).json({
         message: "Please fill all the details",
       });
@@ -50,7 +56,12 @@ const login = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
 
-    if (!username?.trim() || !email?.trim() || !password?.trim() || !role?.trim()) {
+    if (
+      !username?.trim() ||
+      !email?.trim() ||
+      !password?.trim() ||
+      !role?.trim()
+    ) {
       return res.status(400).json({
         message: "Please fill all the details",
       });
@@ -75,23 +86,26 @@ const login = async (req, res) => {
       });
     }
 
-    // const token = jwt.generateToken({
-    //   id: user._id,
-    //   username: user.username,
-    //   email: user.email,
-    // });
+    const tokenAccess = generateTokenAccess(user);
+    const tokenRefresher = generateTokenRefresh(user);
 
-    const token = getToken(user);
-    res.cookie("token", token, {
+    res.cookie("token", tokenAccess, {
       httpONly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 60 * 60 * 100,
+      maxAge: 60 * 60 * 1000,
+    });
+
+    res.cookie("token", tokenRefresher, {
+      httpONly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 1000,
     });
 
     return res.status(200).json({
       message: "User logged in successfully",
-      token,
+      tokenAccess,
     });
   } catch (error) {
     return res.status(500).json({
@@ -99,6 +113,23 @@ const login = async (req, res) => {
       error: error.message,
     });
   }
+};
+
+const logout = async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(400).json({
+      success: "false",
+      message: "Token not found",
+    });
+  }
+
+  res.clearCookies("token");
+
+  return res.status(200).json({
+    success: true,
+    message: "Logout successfully",
+  });
 };
 
 export { register, login };
