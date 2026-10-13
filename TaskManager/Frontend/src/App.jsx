@@ -1,105 +1,182 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 
-const API = "http://localhost:5050/api/task";
+const API = "http://localhost:5050/tasks";
 
 function App() {
-  const [title, setTitle] = useState("");
   const [tasks, setTasks] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // Used after adding a task (called from an event handler, so no lint warning)
-  async function getTask() {
-    try {
-      const response = await fetch(API);
-      if (!response.ok) return;
-      const data = await response.json();
-      setTasks(data);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  // Initial load
+  // GET: Fetch all tasks
   useEffect(() => {
     let ignore = false;
 
-    async function loadTasks() {
+    async function getTasks() {
       try {
         const response = await fetch(API);
-        if (!response.ok) return;
         const data = await response.json();
-        if (!ignore) setTasks(data);
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to fetch tasks");
+        }
+
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid response from server");
+        }
+
+        if (!ignore) {
+          setTasks(data);
+          setError("");
+        }
       } catch (err) {
-        console.error(err);
+        if (!ignore) {
+          setError(err.message || "Unable to connect to server");
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
       }
     }
 
-    loadTasks();
+    getTasks();
 
     return () => {
       ignore = true;
     };
   }, []);
 
-  async function addTask(e) {
-    e.preventDefault(); // stop page reload on form submit
-    if (!title.trim()) return;
+  // POST: Add a task
+  const addTask = async (e) => {
+    e.preventDefault();
+
+    if (!title.trim()) {
+      setError("Please enter a task title.");
+      return;
+    }
+
     try {
       const response = await fetch(API, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title }),
+        body: JSON.stringify({
+          title: title.trim(),
+          description: description.trim(),
+        }),
       });
-      if (!response.ok) return;
-      setTitle("");
-      getTask();
-    } catch (err) {
-      console.error(err);
-    }
-  }
 
-  async function deleteTask(id) {
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to add task");
+      }
+
+      setTasks((prev) => [data, ...prev]);
+      setTitle("");
+      setDescription("");
+      setError("");
+    } catch (err) {
+      setError(err.message || "Failed to add task");
+    }
+  };
+
+  // DELETE: Delete a task
+  const deleteTask = async (id) => {
     try {
       const response = await fetch(`${API}/${id}`, {
         method: "DELETE",
       });
-      if (!response.ok) return;
-      setTasks((prev) => prev.filter((item) => item.id !== id));
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to delete task");
+      }
+
+      setTasks((prev) => prev.filter((task) => task._id !== id));
+
+      setError("");
     } catch (err) {
-      console.error(err);
+      setError(err.message || "Failed to delete task");
     }
-  }
+  };
 
   return (
-    <>
-      <div>
+    <div className="container">
+      <header className="header">
         <h1>Task Manager</h1>
+        <p>Organize your daily tasks</p>
+      </header>
+
+      {error && (
+        <div className="error" role="alert">
+          {error}
+        </div>
+      )}
+
+      <section className="form-card">
+        <h2>Add New Task</h2>
+
         <form onSubmit={addTask}>
           <input
             type="text"
-            placeholder="Add task"
+            placeholder="Enter task title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            required
           />
-          <button type="submit">Add</button>
-        </form>
 
-        {tasks.length === 0 ? (
-          <p>No tasks yet.</p>
+          <textarea
+            placeholder="Enter task description (optional)"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+
+          <button type="submit" className="add-btn">
+            + Add Task
+          </button>
+        </form>
+      </section>
+
+      <section className="tasks-section">
+        <div className="list-heading">
+          <h2>My Tasks</h2>
+          <span>
+            {tasks.length} {tasks.length === 1 ? "task" : "tasks"}
+          </span>
+        </div>
+
+        {loading ? (
+          <p className="empty">Loading tasks...</p>
+        ) : tasks.length === 0 ? (
+          <p className="empty">No tasks available. Add your first task!</p>
         ) : (
-          <ul>
-            {tasks.map((item) => (
-              <li key={item.id}>
-                {item.title}{" "}
-                <button onClick={() => deleteTask(item.id)}>Delete</button>
-              </li>
+          <div className="task-list">
+            {tasks.map((task) => (
+              <div className="task" key={task._id}>
+                <div className="task-details">
+                  <h3>{task.title}</h3>
+                  <p>{task.description || "No description provided"}</p>
+                </div>
+
+                <button
+                  type="button"
+                  className="delete-btn"
+                  onClick={() => deleteTask(task._id)}
+                >
+                  Delete
+                </button>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
-      </div>
-    </>
+      </section>
+    </div>
   );
 }
 

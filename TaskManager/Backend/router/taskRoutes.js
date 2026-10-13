@@ -1,32 +1,75 @@
-const express = require("express");
+import express from "express";
+import mongoose from "mongoose";
+import Task from "../models/taskSchema.js";
+
 const router = express.Router();
-let tasks = [];
-let taskid = 1;
-router.get("/api/task", (req, res) => {
-  res.status(200).json(tasks);
+
+// GET: Fetch all tasks
+router.get("/", async (req, res) => {
+  try {
+    const tasks = await Task.find().sort({ _id: -1 });
+    res.status(200).json(tasks);
+  } catch (error) {
+    console.error("Fetch tasks error:", error);
+    res.status(500).json({
+      message: "Failed to fetch tasks",
+    });
+  }
 });
 
-router.post("/api/task", (req, res) => {
-  const { title } = req.body;
-  if (!title || !title.trim())
-    return res.status(404).json({ message: "Title is missing" });
-  const newtask = {
-    id: taskid++, //tasks.length+1
-    title: title.trim(),
-  };
-  tasks.push(newtask);
-  res.status(200).json(newtask);
+// POST: Add a new task
+router.post("/", async (req, res) => {
+  try {
+    const { title, description } = req.body;
+
+    if (typeof title !== "string" || !title.trim()) {
+      return res.status(400).json({
+        message: "Task title is required",
+      });
+    }
+
+    const newTask = await Task.create({
+      title: title.trim(),
+      description: typeof description === "string" ? description.trim() : "",
+    });
+
+    return res.status(201).json(newTask);
+  } catch (error) {
+    console.error("Add task error:", error);
+    return res.status(500).json({
+      message: "Failed to add task",
+    });
+  }
 });
 
-router.delete("/api/task/:id", (req, res) => {
-  const id = Number(req.params.id);
-  if (!id) return res.status(400).json({ message: "Invalid task ID" });
+// DELETE: Delete a task
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
 
-  const index = tasks.findIndex((task) => task.id === id);
-  if (!index) return res.status(404).json({ message: "Task not found" });
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({
+        message: "Invalid task ID",
+      });
+    }
 
-  tasks.splice(index, 1);
-  res.status(200).json({ message: "Task deleted successfully" });
+    const deletedTask = await Task.findByIdAndDelete(id);
+
+    if (!deletedTask) {
+      return res.status(404).json({
+        message: "Task not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Task deleted successfully",
+    });
+  } catch (error) {
+    console.error("Delete task error:", error);
+    return res.status(500).json({
+      message: "Failed to delete task",
+    });
+  }
 });
 
-module.exports = router;
+export default router;
