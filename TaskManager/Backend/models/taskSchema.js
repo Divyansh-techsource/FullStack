@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
+// import User from "./userSchema.js"
 
 const taskSchema = new mongoose.Schema({
   title: {
@@ -11,6 +12,10 @@ const taskSchema = new mongoose.Schema({
     trim: true,
     default: "",
   },
+  // user: {
+  //   type: Mongoose.Schema.type.Object,
+  //   ref: "User",
+  // },
 });
 
 const Task = mongoose.model("Task", taskSchema);
