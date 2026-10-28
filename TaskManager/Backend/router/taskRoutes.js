@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import Task from "../models/taskSchema.js";
 import asynchandler from "../util/asynchandler.js";
+import ratelimit from "../middleware/ratelimitMiddleware.js"
 
 const router = express.Router();
 
@@ -54,7 +55,7 @@ router.get(
           message: "Not valid ID",
         });
       }
-      query._id={$lt:mongoose.ty};
+      query._id = { $lt: new mongoose.TYPE.nextCursor.id() };
     }
     const task = Task.find(query)
       .sort({ _id: -1 })
@@ -68,8 +69,8 @@ router.get(
     res.status(200).json({
       success: true,
       metadata: {
-        limit:sanitizeLimit,
-        nextCursor:newCursor,
+        limit: sanitizeLimit,
+        nextCursor: newCursor,
         hasNext: hasNext,
       },
       data: task,

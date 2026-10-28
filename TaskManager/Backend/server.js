@@ -1,14 +1,21 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import ratelimit from "express-rate-limit";
 import "dotenv/config";
 import taskRoutes from "./router/taskRoutes.js";
 
 const app = express();
+const limit = ratelimit({
+  windowMs: 15 * 60 * 1000,
+  max: 15,
+  message: "You have exceeded hit limits of API",
+});
 const PORT = 5050;
 
 app.use(cors());
 app.use(express.json());
+app.use(limit);
 
 app.use((req, res, next) => {
   console.log("Request URL:", req.originalUrl);
